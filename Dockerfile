@@ -8,6 +8,7 @@ RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
+    dos2unix \
     jq \
     git \
     iputils-ping \
@@ -42,6 +43,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     curl -LsS "$AZP_AGENTPACKAGE_URL" | tar -xz
 
 COPY ./start.sh .
-RUN chmod +x start.sh
+RUN dos2unix start.sh \
+    && chmod +x start.sh
 
 ENTRYPOINT [ "./start.sh" ]
