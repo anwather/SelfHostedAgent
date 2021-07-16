@@ -14,6 +14,8 @@ $key = New-AzADSPCredential -ObjectId $spn.Id
 
 New-AzResourceGroupDeployment -ResourceGroupName SelfHostedAgent -TemplateFile .\acr.bicep -acrName $acrName -Verbose
 
+Start-Sleep -Seconds 60 # Sleep because for some reason it can't find the registry straight away
+
 az acr build --image $acrName/linuxagent --registry $acrName .
 
 New-AzResourceGroupDeployment -ResourceGroupName SelfHostedAgent -TemplateFile .\aci.bicep -Verbose `
