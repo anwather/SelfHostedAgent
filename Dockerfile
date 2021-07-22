@@ -43,6 +43,8 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     curl -LsS "$AZP_AGENTPACKAGE_URL" | tar -xz
 
 COPY ./start.sh .
+COPY ./init.ps1 .
+RUN pwsh -File ./init.ps1
 RUN dos2unix start.sh \
     && chmod +x start.sh
 
