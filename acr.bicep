@@ -1,7 +1,7 @@
 param acrName string
 
 resource acr 'Microsoft.ContainerRegistry/registries@2020-11-01-preview' = {
-  name: acrName
+  name: toLower(acrName)
   location: resourceGroup().location
   sku: {
     name: 'Basic'
