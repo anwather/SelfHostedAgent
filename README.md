@@ -1,6 +1,6 @@
 ## Self Hosted Agent
 
-1. Grab you devops organization name - click on Azure DevOps icon and copy the link - it should be something like htts://dev.azure.com/xxxxx
+1. Grab your devops organization name - click on Azure DevOps icon and copy the link - it should be something like https://dev.azure.com/xxxxx
 
 2. Generate a PAT token - click on Settings -> Personal Access Tokens -> + New Token
 
