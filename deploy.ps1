@@ -20,8 +20,8 @@ az acr build --image $acrName/linuxagent --registry $acrName .
 
 New-AzResourceGroupDeployment -ResourceGroupName SelfHostedAgent -TemplateFile .\aci.bicep -Verbose `
     -acrName $acrName `
-    -principalId $spn.ApplicationId `
-    -principalKey ($key.Secret | ConvertFrom-SecureString -AsPlainText) `
+    -principalId $spn.AppId `
+    -principalKey ($key.SecretText ) `
     -AZP_URL $AZP_URL `
     -AZP_TOKEN $AZP_TOKEN
 
