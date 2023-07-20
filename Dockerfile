@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # To make it easier for build and release pipelines to run apt-get,
 # configure apt to not require confirmation (assume the -y argument by default)
@@ -11,9 +11,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     dos2unix \
     jq \
     git \
+    gnupg \
     iputils-ping \
     libcurl4 \
-    libicu60 \
+    libicu66 \
     libunwind8 \
     netcat \
     libssl1.0 \
@@ -25,11 +26,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN curl -LsS https://aka.ms/InstallAzureCLIDeb | bash \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb \
+RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb \
     && dpkg -i packages-microsoft-prod.deb \
     && apt-get update \
     && add-apt-repository universe \
     && apt-get install -y powershell
+
+RUN wget -O- https://apt.releases.hashicorp.com/gpg | \
+    gpg --dearmor | \
+    tee /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list \
+    && apt-get update && apt-get install -y terraform
 
 ARG TARGETARCH=amd64
 ARG AGENT_VERSION=2.185.1
